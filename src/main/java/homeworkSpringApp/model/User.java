@@ -1,9 +1,9 @@
 package homeworkSpringApp.model;
-import homeworkSpringApp.model.MadBrains.MyList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
@@ -26,5 +26,5 @@ public class User {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
-    private List<NumberList<Double>> userLists;
+    private List<NumberList> userLists;
 }

@@ -14,12 +14,12 @@ public class NumberListDAOImpl implements NumberListDAO {
     private final ListRepository listRepository;
 
     @Override
-    public void createList(NumberList<Double> list) {
+    public void createList(NumberList list) {
         listRepository.saveAndFlush(list);
     }
 
     @Override
-    public Optional<NumberList<Double>> findList(long listId) {
+    public Optional<NumberList> findList(long listId) {
         return listRepository.findById(listId);
     }
 

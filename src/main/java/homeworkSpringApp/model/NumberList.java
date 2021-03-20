@@ -7,12 +7,13 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "numberLists")
-public class NumberList<Double>{
+public class NumberList extends MyList<Double> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,6 +27,4 @@ public class NumberList<Double>{
     @JoinColumn(name = "uuid", nullable = false)
     private User user;
 
-    @Column(name = "numbers")
-    private MyList<Double> numbers;
 }

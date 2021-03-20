@@ -29,9 +29,9 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<NumberList<Double>> getUserLists(UUID id) {
+    public List<NumberList> getUserLists(UUID id) {
         Optional<User> optionalUser = userRepository.findById(id);
-        List<NumberList<Double>> list = new ArrayList<>();
+        List<NumberList> list = new ArrayList<>();
         if (optionalUser.isPresent()) {
             list = optionalUser.get().getUserLists();
         }
