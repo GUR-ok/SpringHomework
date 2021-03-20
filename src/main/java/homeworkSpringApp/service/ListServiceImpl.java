@@ -45,7 +45,7 @@ public class ListServiceImpl implements ListService{
 
     @Override
     public Optional<NumberList> getNumberList(long listId) {
-        return Optional.empty();
+        return numberListDAO.findList(listId);
     }
 
     @Override
@@ -60,6 +60,6 @@ public class ListServiceImpl implements ListService{
 
     @Override
     public void deleteNumberList(long listId) {
-
+        numberListDAO.deleteList(listId);
     }
 }

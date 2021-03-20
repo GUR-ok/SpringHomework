@@ -6,14 +6,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "numberLists")
-public class NumberList extends MyList<Double> {
+@Table(name = "NumberList")
+public class NumberList extends MyList<Double>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,5 +27,6 @@ public class NumberList extends MyList<Double> {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uuid", nullable = false)
     private User user;
+
 
 }
