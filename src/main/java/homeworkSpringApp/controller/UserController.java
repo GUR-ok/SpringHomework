@@ -1,6 +1,6 @@
 package homeworkSpringApp.controller;
 
-import dto.NumberListDTO;
+import homeworkSpringApp.dto.NumberListDTO;
 import homeworkSpringApp.model.NumberList;
 import homeworkSpringApp.model.User;
 import homeworkSpringApp.service.ListService;

@@ -1,4 +1,4 @@
-package dto;
+package homeworkSpringApp.dto;
 
 import homeworkSpringApp.model.User;
 import lombok.AllArgsConstructor;
