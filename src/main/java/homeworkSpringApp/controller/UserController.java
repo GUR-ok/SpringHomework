@@ -1,5 +1,6 @@
 package homeworkSpringApp.controller;
 
+import dto.NumberListDTO;
 import homeworkSpringApp.model.NumberList;
 import homeworkSpringApp.model.User;
 import homeworkSpringApp.service.ListService;
@@ -8,17 +9,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/myapp")
+@RequestMapping
 @Slf4j
 public class UserController {
 
     private final ListService service;
 
+    //Создание нового юзера
     @PostMapping
     public ResponseEntity<String> addUser( @RequestBody User user) {
         log.info("addUser through controller");
@@ -26,6 +28,7 @@ public class UserController {
         return ResponseEntity.ok(user.getUuid().toString());
     }
 
+    //Создание нового списка
     @PostMapping("/{uuid}/lists")
     public ResponseEntity addList(@PathVariable UUID uuid, @RequestBody NumberList list) {
         log.info("addUserList through controller");
@@ -36,18 +39,48 @@ public class UserController {
         else return ResponseEntity.notFound().build();
     }
 
+    //Получение всех списков пользователя по uuid
+    @GetMapping("/{uuid}/lists")
+    public ResponseEntity<List<NumberListDTO>> getUserLists(@PathVariable UUID uuid) {
+        log.info("getUserLists through controller");
+        List<NumberListDTO> result = service.getUserLists(uuid)
+                .stream()
+                .map(NumberListDTO::from)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(result);
+    }
+
+    //Получение подробной информации по списку
+    @GetMapping("/lists/{id}")
+    public ResponseEntity<NumberListDTO> getListInformation(@PathVariable long id) {
+        log.info("getListInformation through controller");
+        if (service.getNumberList(id).isPresent())
+            return ResponseEntity.ok(NumberListDTO.from(service.getNumberList(id).get()));
+        else
+            return ResponseEntity.notFound().build();
+    }
+
+    //Добавление элемента в список
     @PostMapping("/lists/{id}/elements")
     public void addNumberToList(@PathVariable Long id, @RequestParam Double number) {
         log.info("addElementToList through controller");
         NumberList list = service.getNumberList(id).get();
-        list.add(number);
+        list.getNumlist().add(number);
         service.addNumberList(list, list.getUser().getUuid());
     }
 
-    @GetMapping("/lists/{id}")
-    public ResponseEntity<String> getListInformation(@PathVariable Long id, @RequestParam Double number) {
-        log.info("getListInformation through controller");
-        NumberList list = service.getNumberList(id).get();
-         return ResponseEntity.ok().body(list.getShortDescription());
+    //Удаление элемента списка
+    @DeleteMapping("/lists/{id}/elements/{id_element}")
+    public ResponseEntity deleteAccount(@PathVariable long id, @PathVariable long id_element) {
+        log.info("deleteElementInList through controller");
+        if (service.getNumberList(id).isPresent()){
+            ArrayList<Double> list = new ArrayList<>(service.getNumberList(id).get().getNumlist());
+            list.remove(id_element);
+            Set<Double> set = new LinkedHashSet<>(list);
+            service.getNumberList(id).get().setNumlist(set);
+        }
+        return ResponseEntity.notFound().build();
     }
+
+
 }

@@ -7,14 +7,16 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "NumberList")
-public class NumberList extends MyList<Double>{
+@Table(name = "numberLists")
+public class NumberList{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,5 +30,8 @@ public class NumberList extends MyList<Double>{
     @JoinColumn(name = "uuid", nullable = false)
     private User user;
 
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "elements", joinColumns = @JoinColumn(name = "user_list"))
+    private Set<Double> numlist;
 
 }

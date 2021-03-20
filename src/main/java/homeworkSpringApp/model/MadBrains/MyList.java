@@ -18,6 +18,8 @@ import java.util.Random;
 public class MyList<T> implements AuthorHolder, AdvancedList<T>, SimpleList<T> {
 
     private final int INIT_SIZE = 10; // Начальный размер внутреннего массива при инициализации списка
+    @ElementCollection
+    @OrderColumn(name = "elem")
     private Object[] array = new Object[INIT_SIZE];
     private int counter;
 
