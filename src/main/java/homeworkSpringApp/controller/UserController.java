@@ -82,5 +82,57 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
 
+    //Получение элемента списка
+    @GetMapping("/lists/{id}/elements/{id_element}")
+    public ResponseEntity<Double> getElement(@PathVariable long id, @PathVariable int id_element) {
+        log.info("getElementInList through controller");
+        if (service.getNumberList(id).isPresent()) {
+            NumberList numberList = service.getNumberList(id).get();
+            Double element = numberList.getNumlist().get(id_element);
+            return ResponseEntity.ok(element);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    //Получение размера списка
+    @GetMapping("/lists/{id}/size")
+    public ResponseEntity<Integer> getListSize(@PathVariable long id) {
+        log.info("getListSize through controller");
+        if (service.getNumberList(id).isPresent()) {
+            NumberList numberList = service.getNumberList(id).get();
+            Integer size = numberList.getNumlist().size();
+            return ResponseEntity.ok(size);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    //Добавить список элементов
+    @PutMapping("/lists/{id}/elements")
+    public ResponseEntity<String> addListToList(@PathVariable long id, @RequestBody NumberList list) {
+        log.info("putElementsToList through controller");
+        if (service.getNumberList(id).isPresent()) {
+            NumberList numberList = service.getNumberList(id).get();
+            List<Double> addedList = list.getNumlist();
+            numberList.getNumlist().addAll(addedList);
+            service.addNumberList(numberList, numberList.getUser().getUuid());
+            return ResponseEntity.ok(list.getNumlist().size()+" elements added to list");
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    //Сколько раз элемент встречается в списке
+    @GetMapping("/lists/{id}/find")
+    public ResponseEntity<Integer> countElement(@PathVariable long id, @RequestParam Double element) {
+        log.info("countElementsInList through controller");
+        if (service.getNumberList(id).isPresent()) {
+            Integer counter = 0;
+            for (Double elem : service.getNumberList(id).get().getNumlist())
+            {
+                if (elem.equals(element)) counter++;
+            }
+            return ResponseEntity.ok(counter);
+        }
+        return ResponseEntity.notFound().build();
+    }
 
 }
