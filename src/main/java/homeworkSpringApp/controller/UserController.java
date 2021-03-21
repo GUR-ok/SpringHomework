@@ -71,13 +71,13 @@ public class UserController {
 
     //Удаление элемента списка
     @DeleteMapping("/lists/{id}/elements/{id_element}")
-    public ResponseEntity deleteAccount(@PathVariable long id, @PathVariable long id_element) {
+    public ResponseEntity deleteElement(@PathVariable long id, @PathVariable int id_element) {
         log.info("deleteElementInList through controller");
-        if (service.getNumberList(id).isPresent()){
-            ArrayList<Double> list = new ArrayList<>(service.getNumberList(id).get().getNumlist());
-            list.remove(id_element);
-            Set<Double> set = new LinkedHashSet<>(list);
-            service.getNumberList(id).get().setNumlist(set);
+        if (service.getNumberList(id).isPresent()) {
+            NumberList numberList = service.getNumberList(id).get();
+            numberList.getNumlist().remove(id_element);
+            service.addNumberList(numberList, numberList.getUser().getUuid());
+            return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
     }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -32,6 +33,6 @@ public class NumberList{
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "elements", joinColumns = @JoinColumn(name = "user_list"))
-    private Set<Double> numlist;
+    private List<Double> numlist = new ArrayList<>();
 
 }
