@@ -24,6 +24,13 @@ public class User {
     @Column(name = "username", nullable = false)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
-    private List<NumberList> userLists;
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "uuid"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles;
+
 }

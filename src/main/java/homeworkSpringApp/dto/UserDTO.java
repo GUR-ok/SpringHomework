@@ -22,4 +22,11 @@ public class UserDTO {
         return dto;
     }
 
+    public User toUser() {
+        User user = new User();
+        user.setUuid(this.uuid);
+        user.setName(this.name);
+        return user;
+    }
+
 }
