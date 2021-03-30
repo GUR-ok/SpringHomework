@@ -1,5 +1,6 @@
 package homeworkSpringApp.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import homeworkSpringApp.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,8 @@ public class UserDTO {
 
     private UUID uuid;
     private String name;
+    @JsonIgnore
+    private String password;
 
     public static UserDTO from(User user) {
         UserDTO dto = new UserDTO();
@@ -26,6 +29,7 @@ public class UserDTO {
         User user = new User();
         user.setUuid(this.uuid);
         user.setName(this.name);
+        user.setPassword(this.password);
         return user;
     }
 

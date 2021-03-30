@@ -2,16 +2,22 @@ package homeworkSpringApp.service;
 
 import homeworkSpringApp.dao.CarDAO;
 import homeworkSpringApp.dao.CarListDAO;
+import homeworkSpringApp.dao.RoleDAO;
 import homeworkSpringApp.dao.UserDAO;
 import homeworkSpringApp.dto.CarDTO;
 import homeworkSpringApp.dto.CarListDTO;
 import homeworkSpringApp.model.Car;
 import homeworkSpringApp.model.CarList;
+import homeworkSpringApp.model.Role;
 import homeworkSpringApp.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,9 +30,25 @@ public class ListServiceImpl implements ListService{
     private final UserDAO userDAO;
     private final CarListDAO carListDAO;
     private final CarDAO carDAO;
+    private final RoleDAO roleDAO;
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder(){
+        BCryptPasswordEncoder bCryptpasswordEncoder = new BCryptPasswordEncoder();
+        return bCryptpasswordEncoder;
+    }
+
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public void createUser(User user) {
+        Role roleUser = roleDAO.findByName("ROLE_USER").get();
+        List<Role> userRoles = new ArrayList<>();
+        userRoles.add(roleUser);
+        user.setRoles(userRoles);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDAO.create(user);
     }
 

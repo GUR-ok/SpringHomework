@@ -11,19 +11,13 @@ import javax.xml.bind.annotation.*;
 
 @Data
 @NoArgsConstructor
-@XmlRootElement(name = "authenticationRequestDTO")
-@XmlType(propOrder = { "username", "password"})
-@XmlAccessorType(XmlAccessType.FIELD)
 public class AuthenticationRequestDTO {
 
-    @XmlElement
     private String username;
 
-    @XmlElement
     private String password;
 
     @Autowired
-    @XmlTransient
     @JsonIgnore
     private BCryptPasswordEncoder passwordEncoder;
 

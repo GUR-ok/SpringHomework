@@ -38,11 +38,19 @@ public class UserController {
     private final ListService service;
 
     //Создание нового юзера
-    @PostMapping
+    @PostMapping("/admin/create")
     public ResponseEntity<String> addUser( @RequestBody User user) {
         log.info("addUser through controller");
         service.createUser(user);
         return ResponseEntity.ok(user.getUuid().toString());
+    }
+
+    //Удаление юзера
+    @PostMapping("/admin/delete/{uuid}")
+    public ResponseEntity<String> deleteUser( @PathVariable UUID uuid) {
+        log.info("delete through controller");
+        service.deleteUser(uuid);
+        return ResponseEntity.ok().build();
     }
 
     //Создание нового списка
