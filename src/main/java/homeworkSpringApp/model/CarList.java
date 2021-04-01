@@ -1,8 +1,6 @@
 package homeworkSpringApp.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,7 +9,8 @@ import java.util.List;
 
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "carlists")
@@ -29,7 +28,7 @@ public class CarList {
     @JoinTable(name = "listed_cars",
             joinColumns = @JoinColumn(name = "userlist_id"),
             inverseJoinColumns = @JoinColumn(name = "car_id"))
-    private List<Car> carList = new ArrayList<>();
+    private List<Car> cars = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uuid", nullable = false)

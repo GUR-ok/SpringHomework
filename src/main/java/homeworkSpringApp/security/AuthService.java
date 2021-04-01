@@ -1,6 +1,7 @@
 package homeworkSpringApp.security;
 
 import homeworkSpringApp.dto.AuthenticationRequestDTO;
+import homeworkSpringApp.model.CarList;
 import homeworkSpringApp.model.User;
 import homeworkSpringApp.security.jwt.JwtTokenProvider;
 import homeworkSpringApp.service.ListService;
@@ -19,7 +20,9 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Data
 @Service
@@ -86,5 +89,10 @@ public class AuthService {
         }
         return newAccessToken;
     }
+
+    public UUID getUserUuidByToken(String token) {
+        return listService.getUserByName(jwtTokenProvider.getUserName(token.substring(7, token.length()))).getUuid();
+    }
+
 }
 

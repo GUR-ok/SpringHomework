@@ -12,7 +12,7 @@ databaseChangeLog:
                   autoIncrement: false
                   constraints:
                     foreignKeyName: car_lists_id
-                    referencse: car_lists (userlist_id)
+                    referencse: carlists (userlist_id)
                     deleteCascade: false
               - column:
                   name: car_id

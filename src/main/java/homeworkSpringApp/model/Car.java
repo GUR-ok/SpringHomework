@@ -35,6 +35,12 @@ public class Car {
             inverseJoinColumns = @JoinColumn(name = "userlist_id"))
     private List<CarList> carlist = new ArrayList<>();
 
+    public Car(String name, Double price, Double horsepower) {
+        this.name = name;
+        this.price = price;
+        this.horsePower = horsepower;
+    }
+
 
     public static class CarComparatorByName implements Comparator<Car> {
 
@@ -58,5 +64,15 @@ public class Car {
         public int compare(Car car1, Car car2) {
             return car1.getHorsePower().compareTo(car2.getHorsePower());
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", horsePower=" + horsePower +
+                '}';
     }
 }
