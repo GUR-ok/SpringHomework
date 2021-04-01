@@ -18,6 +18,9 @@ public class AuthentcationController {
 
     private final AuthService authService;
 
+    //Login: Admin
+    //Password: test
+
     @PostMapping(value = "/login")
     public ResponseEntity login(@RequestBody AuthenticationRequestDTO dto){
        return authService.login(dto);

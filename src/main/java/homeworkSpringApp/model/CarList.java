@@ -31,4 +31,7 @@ public class CarList {
             inverseJoinColumns = @JoinColumn(name = "car_id"))
     private List<Car> carList = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "uuid", nullable = false)
+    private User user;
 }

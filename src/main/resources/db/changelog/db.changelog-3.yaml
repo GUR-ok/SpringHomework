@@ -18,3 +18,12 @@ databaseChangeLog:
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
+              - column:
+                  name: uuid
+                  type: UUID
+                  constraints:
+                    unique: false
+                    nullable: false
+                    foreignKeyName: user_uuid
+                    referencse: users (uuid)
+                    deleteCascade: true

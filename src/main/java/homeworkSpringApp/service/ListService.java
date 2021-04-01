@@ -18,7 +18,7 @@ public interface ListService {
     User getUserByName(String name);
     List<User> getAllUsers();
 
-    ResponseEntity<List<CarListDTO>> getLists();
+    ResponseEntity<List<CarListDTO>> getLists(UUID uuid);
     ResponseEntity<CarListDTO> getCarList(long listId);
     void addCarList(CarList list);
     void deleteList(long listId);

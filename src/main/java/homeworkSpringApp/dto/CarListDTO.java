@@ -15,12 +15,14 @@ public class CarListDTO {
     private Long id;
     private String shortDescription;
     private String arrayAsString;
+    private UUID ownerUuid;
 
     public static CarListDTO from(CarList carList) {
         CarListDTO dto = new CarListDTO();
         dto.setId(carList.getId());
         dto.setShortDescription(carList.getShortDescription());
         dto.setArrayAsString(carList.getCarList().toString());
+        dto.setOwnerUuid(carList.getUser().getUuid());
         return dto;
     }
 

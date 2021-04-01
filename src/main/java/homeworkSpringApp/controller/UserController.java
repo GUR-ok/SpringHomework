@@ -5,6 +5,7 @@ import homeworkSpringApp.dto.CarListDTO;
 import homeworkSpringApp.model.Car;
 import homeworkSpringApp.model.CarList;
 import homeworkSpringApp.model.User;
+import homeworkSpringApp.security.AuthService;
 import homeworkSpringApp.service.ListService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,7 @@ import java.util.*;
 public class UserController {
 
     private final ListService service;
+    private final AuthService authService;
 
     //Создание нового юзера
     @PostMapping("/admin/create")
@@ -55,17 +57,23 @@ public class UserController {
 
     //Создание нового списка
     @PostMapping("/lists")
-    public ResponseEntity<Long> addList(@RequestBody CarList list) {
+    public ResponseEntity<String> addList(@RequestBody CarList list, @RequestHeader (name="Authorization") String token) {
         log.info("addUserList through controller");
+        String accessToken = token.substring(7, token.length());
+        log.info("UserAUTH: " + accessToken);
+        //Получение имени юзера из jwt, и присваивание этого юзера списку в качестве владельца.
+        list.setUser(service.getUserByName(authService.getJwtTokenProvider().getUserName(accessToken)));
         service.addCarList(list);
-        return ResponseEntity.ok(list.getId());
+        return ResponseEntity.ok("Added list id: " + list.getId());
     }
 
     //Получение всех списков пользователя по uuid
     @GetMapping("/lists")
-    public ResponseEntity<List<CarListDTO>> getUserLists() {
+    public ResponseEntity<List<CarListDTO>> getUserLists(@RequestHeader (name="Authorization") String token) {
         log.info("getLists through controller");
-        return service.getLists();
+        String accessToken = token.substring(7, token.length());
+        //Получение имени юзера из токена, по имени юзера получение его UUID и отправка в сервис
+        return service.getLists(service.getUserByName(authService.getJwtTokenProvider().getUserName(accessToken)).getUuid());
     }
 
     //Получение подробной информации по списку

@@ -17,10 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -73,11 +71,16 @@ public class ListServiceImpl implements ListService{
     }
 
     @Override
-    public ResponseEntity<List<CarListDTO>> getLists() {
+    public ResponseEntity<List<CarListDTO>> getLists(UUID uuid) {
         List<CarListDTO> result = carListDAO.getLists()
                 .stream()
                 .map(CarListDTO::from)
                 .collect(Collectors.toList());
+        Iterator<CarListDTO> iterator = result.listIterator();
+        while (iterator.hasNext()) {
+            if (!iterator.next().getOwnerUuid().equals(uuid))
+                iterator.remove();
+        }
         return ResponseEntity.ok(result);
     }
 
