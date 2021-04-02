@@ -26,6 +26,11 @@ public class AuthentcationController {
        return authService.login(dto);
     }
 
+    //Новый accessToken выдается если:
+    // а) обращаение идет с действующим accessToken,
+    // либо
+    // б) просроченным accessToken и действующим refreshToken
+    // с заголовком Header = "isRefreshToken", Value = {refreshtoken}
     @GetMapping(value = "/refreshtoken/")
     public ResponseEntity refreshToken(HttpServletRequest request){
         return authService.refresh(request);

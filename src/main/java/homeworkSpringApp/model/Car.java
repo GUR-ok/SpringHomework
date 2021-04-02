@@ -20,13 +20,13 @@ public class Car {
     @Column(name = "car_id")
     private long id;
 
-    @Column(name = "car_name")
+    @Column(name = "car_name", nullable = false)
     private String name;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private Double price;
 
-    @Column(name = "horsepower")
+    @Column(name = "horsepower", nullable = false)
     private Double horsePower;
 
     @ManyToMany(cascade = CascadeType.ALL)

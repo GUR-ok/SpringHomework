@@ -197,5 +197,43 @@ public class ListServiceImpl implements ListService{
         return ResponseEntity.notFound().build();
     }
 
+    @Override
+    public ResponseEntity<String> getSortedList(long listId, String comparatorName, UUID uuid) {
+        if (carListDAO.findList(listId).isPresent() && carListDAO.findList(listId).get().getUser().getUuid().equals(uuid))
+        {   List<Car> arrayList = new ArrayList<>();
+            arrayList = carListDAO.findList(listId).get().getCars();
+            switch (comparatorName) {
+                case "ByPrice": {
+                    Collections.sort(arrayList, new Car.CarComparatorByPrice());
+                    break;
+                }
+                case "ByHorsepower": {
+                    Collections.sort(arrayList, new Car.CarComparatorByHorsePower());
+                    break;
+                }
+                default: {
+                    Collections.sort(arrayList, new Car.CarComparatorByName());
+                    break;
+                }
+            }
+            String info = "Sorted list from CarList "+ listId + " " + arrayList;
+            return ResponseEntity.ok(info);
+        }
+        else
+            return ResponseEntity.notFound().build();
+    }
+
+    @Override
+    public ResponseEntity<String> getShuffledList(long listId, UUID uuid) {
+        if (carListDAO.findList(listId).isPresent() && carListDAO.findList(listId).get().getUser().getUuid().equals(uuid))
+        {   List<Car> arrayList = new ArrayList<>();
+            arrayList = carListDAO.findList(listId).get().getCars();
+            Collections.shuffle(arrayList);
+            String info = "Shuffled list from CarList "+ listId + " " + arrayList;
+            return ResponseEntity.ok(info);
+        } else
+            return ResponseEntity.notFound().build();
+    }
+
 
 }

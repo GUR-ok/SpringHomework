@@ -11,13 +11,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import java.util.*;
 
-/*
+/*   Author: GORELOV YURIY
+*
 *        + POST /lists - создание нового списка
 *        + GET /lists - отображает все имеющиеся списки (с краткой информацией по ним) для данного пользователя
 *        + GET /lists/{id} - Пользователь может получить более подробную информацию по каждому списку по id этого списка (вывод всех элементов списка)
@@ -26,11 +24,11 @@ import java.util.*;
 *        + GET /lists/{id}/elements/{id_element} - возвращает элемент из списка
 *        + GET /lists/{id}/size - размер списка
 *        + PUT /lists/{id}/elements - добавить список элементов
-*        GET /lists/{id}/find?element={json_element} - возвращает, сколько раз элемент встречается в списке
+*        + GET /lists/{id}/find?element={json_element} - возвращает, сколько раз элемент встречается в списке
 *        Для sort и shuffle методы
-*        GET /lists/{id}/sort - возвращает отсортированный список
+*        + GET /lists/{id}/sort - возвращает отсортированный список
 *        в качестве сортировки можно сразу же определить, по какому компаратору будет происходить сортировка
-*        GET /lists/{id}/shuffle - возвращает "перемешанный" список
+*        + GET /lists/{id}/shuffle - возвращает "перемешанный" список
 */
 
 @RestController
@@ -134,9 +132,21 @@ public class UserController {
     }
 
 
-    /*     GET /lists/{id}/sort - возвращает отсортированный список
-*        в качестве сортировки можно сразу же определить, по какому компаратору будет происходить сортировка
-*        GET /lists/{id}/shuffle - возвращает "перемешанный" список
-    */
+    //Возвращает отсортированный список
+    @GetMapping("/lists/{id}/sort")
+    public ResponseEntity<String> sortList(@PathVariable long id,
+                                            @RequestHeader (name="Authorization") String token,
+                                            @RequestParam (name="comparator") String comparatorName) {
+        log.info("get sorted list through controller");
+        return service.getSortedList(id, comparatorName, authService.getUserUuidByToken(token));
+    }
+
+    //Возвращает перемешанный список
+    @GetMapping("/lists/{id}/shuffle")
+    public ResponseEntity<String> shuffleList(@PathVariable long id,
+                                           @RequestHeader (name="Authorization") String token) {
+        log.info("get sorted list through controller");
+        return service.getShuffledList(id, authService.getUserUuidByToken(token));
+    }
 
 }

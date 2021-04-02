@@ -30,4 +30,6 @@ public interface ListService {
     ResponseEntity<Integer> countElement(long id, String carjson, UUID uuid) throws ParseException;
     ResponseEntity<String> addListToList(long id, CarList list, UUID uuid);
     ResponseEntity<Integer> getListSize(long id, UUID uuid);
+    ResponseEntity<String> getSortedList(long listId, String comparatorName, UUID uuid);
+    ResponseEntity<String> getShuffledList(long listId, UUID uuid);
 }
