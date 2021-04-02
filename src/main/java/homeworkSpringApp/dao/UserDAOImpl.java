@@ -1,6 +1,6 @@
 package homeworkSpringApp.dao;
 
-import homeworkSpringApp.model.NumberList;
+import homeworkSpringApp.model.CarList;
 import homeworkSpringApp.model.User;
 import homeworkSpringApp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,18 +24,13 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void create(User user) {
-        userRepository.saveAndFlush(user);
+    public Optional<User> findByName(String name) {
+        return userRepository.findByName(name);
     }
 
     @Override
-    public List<NumberList> getUserLists(UUID id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        List<NumberList> list = new ArrayList<>();
-        if (optionalUser.isPresent()) {
-            list = optionalUser.get().getUserLists();
-        }
-        return list;
+    public void create(User user) {
+        userRepository.saveAndFlush(user);
     }
 
     @Override

@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 9
+      author: gur
+      changes:
+        - createTable:
+            tableName: listed_cars
+            columns:
+              - column:
+                  name: userlist_id
+                  type: BIGINT
+                  autoIncrement: false
+                  constraints:
+                    foreignKeyName: car_lists_id
+                    referencse: carlists (userlist_id)
+                    deleteCascade: false
+              - column:
+                  name: car_id
+                  type: BIGINT
+                  autoIncrement: false
+                  constraints:
+                    foreignKeyName: cars_id
+                    referencse: cars (car_id)
+                    deleteCascade: false

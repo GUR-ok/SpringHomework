@@ -1,8 +1,6 @@
 package homeworkSpringApp.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,26 +9,28 @@ import java.util.List;
 
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "numberLists")
-public class NumberList{
+@Table(name = "carlists")
+public class CarList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "numberList_id")
+    @Column(name = "userlist_id")
     private long id;
 
     @Column(name = "description")
     private String shortDescription;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "listed_cars",
+            joinColumns = @JoinColumn(name = "userlist_id"),
+            inverseJoinColumns = @JoinColumn(name = "car_id"))
+    private List<Car> cars = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uuid", nullable = false)
     private User user;
-
-    @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "elements", joinColumns = @JoinColumn(name = "user_list"))
-    private List<Double> numlist = new ArrayList<>();
-
 }

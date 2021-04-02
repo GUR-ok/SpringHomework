@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: gur
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: uuid
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 4
+      author: gur
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: uuid
+                  value: 70974a1d-d088-4a08-9b13-5b22361098ff
+              - column:
+                  name: username
+                  value: Admin
+              - column:
+                  name: password
+                  value: $2a$04$sjnqEP4QVRQKx4lgAC7sd.bqM7zPRcmhf86zaSrElvfXZZrliYzpC

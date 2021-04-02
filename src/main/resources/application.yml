@@ -3,7 +3,7 @@ spring:
     database: POSTGRESQL
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       format_sql: true
   datasource:
@@ -12,3 +12,13 @@ spring:
     username: user
     password: pass
     driverClassName: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yml
+
+jwt:
+  token:
+    secret: jwtsecure
+  accesstoken:
+    expired: 6000000
+  refreshtoken:
+    expired: 172800000
